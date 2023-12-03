@@ -31,3 +31,26 @@ with open(filename) as file:
 print(valid_game_ids_sum)
 
 
+# filename = 'Day 2 - test input.txt'
+
+total_power = 0
+
+with open(filename) as file:
+    game_pattern = re.compile(r"Game (\d+): ")
+    set_pattern = re.compile(r"(\d+) (red|green|blue)")
+    for line in file:
+        line = line.strip()
+        game_str = game_pattern.match(line).group(1)
+        game = atoi(game_str)
+        maxes = {}
+        for match in set_pattern.finditer(line):
+            number = atoi(match.group(1))
+            color = match.group(2)
+            if color not in maxes or number > maxes[color]:
+                maxes[color] = number
+        power = maxes['red'] * maxes['green'] * maxes['blue']
+        total_power += power
+
+print(total_power)
+
+
